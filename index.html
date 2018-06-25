@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+</head>
+<body>
+        <div class="quizContainer">
+                <h1>Worlds Hardest Quiz</h1>
+                <h3>You have 10 seconds to answer 5 questions</h3>
+
+                <div class="timer"> Here is your time</div>
+       
+               <div class="question"></div>
+              
+               <ul class="choiceList"></ul>
+               <div class="quizMessage"></div>
+               <div class="result"></div>
+               <div class="nextButton">Next Question</div>
+               <br>
+           </div>
+    
+</body>
+
+<script>
+
+var questions = [{
+    question: "Who was the first presdient of the USA?",
+    choices: ["George Bush", "George Washington", "Washington DC", "George Michael"],
+    correctAnswer: 1
+}, {
+    question: "What are the first three letters of the Alphabet",
+    choices: ["acb", "adb", "abc", "acdc"],
+    correctAnswer: 2
+}, {
+    question: "What is one plus 3",
+    choices: ["four", "3", "44", "three"],
+    correctAnswer: 0
+}, {
+    question: "What is the color of the sky?",
+    choices: ["blue", "green", "yellow", "black"],
+    correctAnswer: 0
+}, {
+    question: "A simple question of weight ratios! A five ounce bird could not carry a one pound coconut. In order to maintain air-speed velocity, a swallow needs to beat its wings forty-three times every second. It could be carried by an African swallow! But, of course, African swallows are non-migratory.",
+    choices: ["he's got two cocunts and he is banging them together", "WHAT is your Quest? To Seek the Holy Grain", "Bring out your dead", " Old crone! Is there anywhere in this town where we could buy a shrubbery?"],
+    correctAnswer: 0
+}];
+
+var currentQuestion = 0;
+var correctAnswers = 0;
+var quizOver = false;
+var number = 10;
+var intervalId
+
+$(document).ready(function () {
+
+    //start timer
+     function runTimer() {
+      clearInterval(intervalId);
+      intervalId = setInterval(decrement, 1000);
+    }
+    runTimer();
+
+    //  The decrement function.
+    function decrement() {
+
+      //  Decrease number by one.
+      number--;
+      console.log(number);
+
+      //  Show the number in the #show-number tag.
+      $(".timer").html("<h2>" + "Here is your time "+ number + "</h2>");
+
+      if (number === 0) {
+
+//  ...run the stop function.
+        stop();
+
+//  Alert the user that time is up.
+        alert("Time Up!");
+    }
+}
+    decrement();
+
+   
+    // Display the first question
+    displayCurrentQuestion();
+    $(this).find(".quizMessage").hide();
+
+    // On clicking next, display the next question
+    $(this).find(".nextButton").on("click", function () {
+        if (!quizOver) {
+
+            value = $("input[type='radio']:checked").val();
+
+            if (value == undefined) {
+                $(document).find(".quizMessage").text("Please select an answer");
+                $(document).find(".quizMessage").show();
+            } else {
+                // TODO: Remove any message -> not sure if this is efficient to call this each time....
+                $(document).find(".quizMessage").hide();
+
+                if (value == questions[currentQuestion].correctAnswer) {
+                    correctAnswers++;
+                }
+
+                currentQuestion++; // Since we have already displayed the first question on DOM ready
+                if (currentQuestion < questions.length) {
+                    displayCurrentQuestion();
+                } else {
+                    displayScore();
+                    //                    $(document).find(".nextButton").toggle();
+                    //                    $(document).find(".playAgainButton").toggle();
+                    // Change the text in the next button to ask if user wants to play again
+                    $(document).find(".nextButton").text("Play Again?");
+                    quizOver = true;
+                }
+            }
+        } else { // quiz is over and clicked the next button (which now displays 'Play Again?'
+            quizOver = false;
+            $(document).find(".nextButton").text("Next Question");
+            resetQuiz();
+            displayCurrentQuestion();
+            hideScore();
+        }
+    });
+
+});
+
+// This displays the current question AND the choices
+function displayCurrentQuestion() {
+
+    console.log("In display current Question");
+
+    var question = questions[currentQuestion].question;
+    var questionClass = $(document).find(".quizContainer > .question");
+    var choiceList = $(document).find(".quizContainer > .choiceList");
+    var numChoices = questions[currentQuestion].choices.length;
+
+    // Set the questionClass text to the current question
+    $(questionClass).text(question);
+
+    // Remove all current <li> elements (if any)
+    $(choiceList).find("li").remove();
+
+    var choice;
+    for (i = 0; i < numChoices; i++) {
+        choice = questions[currentQuestion].choices[i];
+        $('<li><input type="radio" value=' + i + ' name="dynradio" />' + choice + '</li>').appendTo(choiceList);
+    }
+}
+
+function resetQuiz() {
+    currentQuestion = 0;
+    correctAnswers = 0;
+    hideScore();
+}
+
+function displayScore() {
+    $(document).find(".quizContainer > .result").text("You scored: " + correctAnswers + " out of: " + questions.length);
+    $(document).find(".quizContainer > .result").show();
+}
+
+function hideScore() {
+    $(document).find(".result").hide();
+    
+}
+function stop () {
+    displayScore();
+    $(".timer").empty();
+    clearInterval(intervalId);
+    $(".question").empty();
+    $(".question").prepend('<img id="theImg" src="theImg.png" />')
+}
+</script>
+</html>
