@@ -2,15 +2,14 @@
 <html>
 <head>
     <title>Page Title</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 
 </head>
 <body>
         <div class="quizContainer">
                 <h1>Worlds Hardest Quiz</h1>
-                <h3>You have 10 seconds to answer 5 questions</h3>
+                <h3>You have 20 seconds to answer 5 questions</h3>
 
                 <div class="timer"> Here is your time</div>
        
@@ -52,7 +51,7 @@ var questions = [{
 var currentQuestion = 0;
 var correctAnswers = 0;
 var quizOver = false;
-var number = 10;
+var number = 20;
 var intervalId
 
 $(document).ready(function () {
