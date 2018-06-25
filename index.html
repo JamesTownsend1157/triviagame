@@ -45,8 +45,8 @@ var questions = [{
     correctAnswer: 0
 }, {
     question: "A simple question of weight ratios! A five ounce bird could not carry a one pound coconut. In order to maintain air-speed velocity, a swallow needs to beat its wings forty-three times every second. It could be carried by an African swallow! But, of course, African swallows are non-migratory.",
-    choices: ["he's got two cocunts and he is banging them together", "WHAT is your Quest? To Seek the Holy Grain", "Bring out your dead", " Old crone! Is there anywhere in this town where we could buy a shrubbery?"],
-    correctAnswer: 0
+    choices: ["What are you gonna do, Bleed on Me?", "I Fart in your general direction", "Are you Suggesting Cocunuts Migrate?", "It's Just a Flesh Wound"],
+    correctAnswer: 5
 }];
 
 var currentQuestion = 0;
@@ -173,7 +173,8 @@ function stop () {
     $(".timer").empty();
     clearInterval(intervalId);
     $(".question").empty();
-    $(".question").prepend('<img id="theImg" src="theImg.png" />')
+    $(".choiceList").empty();
+    $(".question").prepend('<img id="theImg" src="monty-python-holy-grail-quotes-monty-python-holy-grail-quotes-monty-python-comp-quotes-of-daily.jpg" />')
 }
 </script>
 </html>
